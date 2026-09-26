@@ -10,8 +10,12 @@ It talks to SoundCloud's **internal api-v2**, the same undocumented API soundclo
 npm install
 npm run dev        # hot-reloading dev build
 npm run build && npm start   # production build
-npm run dist       # macOS .dmg in dist/ (unsigned)
+npm run install-app   # build Cloudplayer.app and copy it to /Applications
+npm run dist          # macOS .dmg in dist/
+npm run icon          # re-render resources/icon.png from icon.svg
 ```
+
+Builds are ad-hoc signed (`scripts/adhoc-sign.cjs`) so they run on your own Mac without an Apple Developer ID. To share a build with someone else it would need proper signing and notarization.
 
 If `npm install` stops with `Cannot read properties of null (reading 'edgesOut')`, that is an npm bug triggered by vitest 4.1.x; vitest is pinned to 4.0.x here to avoid it. If Electron fails to start with `ENOENT … Electron.app`, run `node node_modules/electron/install.js` to fetch the binary.
 

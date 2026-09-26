@@ -12,20 +12,16 @@
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
     "test": "vitest run",
     "smoke": "SMOKE=1 vitest run src/main",
-    "dist": "electron-vite build && electron-builder --mac"
+    "dist": "electron-vite build && electron-builder --mac",
+    "icon": "electron scripts/render-icon.cjs",
+    "app": "electron-vite build && electron-builder --mac dir",
+    "install-app": "npm run app && rm -rf /Applications/Cloudplayer.app && cp -R dist/mac-arm64/Cloudplayer.app /Applications/"
   },
-  "dependencies": {
+  "devDependencies": {
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@fontsource/instrument-serif": "^5.3.0",
     "@tanstack/react-query": "^5.104.0",
-    "hls.js": "^1.7.3",
-    "lucide-react": "^1.48.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "zustand": "^5.0.15"
-  },
-  "devDependencies": {
     "@types/node": "^22.10.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -33,9 +29,14 @@
     "electron": "^44.4.5",
     "electron-builder": "^26.15.3",
     "electron-vite": "^5.0.0",
+    "hls.js": "^1.7.3",
+    "lucide-react": "^1.48.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.6",
-    "vitest": "~4.0.18"
+    "vitest": "~4.0.18",
+    "zustand": "^5.0.15"
   },
   "build": {
     "appId": "dev.local.cloudplayer",
@@ -49,7 +50,17 @@
     ],
     "mac": {
       "category": "public.app-category.music",
-      "target": "dmg"
-    }
+      "icon": "resources/icon.png",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "identity": null
+    },
+    "afterPack": "scripts/adhoc-sign.cjs"
   }
 }

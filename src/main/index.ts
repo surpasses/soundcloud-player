@@ -148,6 +148,9 @@ function createMainWindow(): void {
 }
 
 app.whenReady().then(() => {
+  // Packaged builds get the icon from the bundle; in dev, replace Electron's.
+  if (process.platform === 'darwin' && !app.isPackaged) app.dock?.setIcon(join(__dirname, '../../resources/icon.png'))
+
   scSession = session.fromPartition(SC_PARTITION)
   client = new SoundCloudClient({
     fetch: (url, init) => scSession.fetch(url, init),

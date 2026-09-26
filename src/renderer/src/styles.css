@@ -390,7 +390,6 @@ code {
   position: relative;
   isolation: isolate;
   padding: 0 var(--gutter);
-  max-width: 1440px;
 }
 
 .hello {
